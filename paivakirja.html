@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Päiväkirjat</title>
+    <link rel="stylesheet" href="../src/css/style.css">
+</head>
+<body class="body-background">
+    <nav class="navigation-bar">
+        <div class="nav-container">
+            <div class="nav-logo">Päiväkirja Sovellus</div>
+            <ul class="nav-links">
+                <li><a href="#" id="naytaSleep">Unipäiväkirja</a></li>
+                <li><a href="#" id="naytaExercise">Treenipäiväkirja</a></li>
+                <li><a href="#" id="naytaMood">Mielialapäiväkirja</a></li>
+                <li><a href="#" id="naytaAsetukset">Käyttäjäasetukset</a></li>
+                <li><button id="logout">Uloskirjautuminen</button></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="content-container">
+        <div id="unipaivakirja" class="diary-section">
+            <button id="naytaUnet">Näytä merkinnät</button>
+            <button id="lisaaUnet">Lisää merkintä</button>
+            <div id="view-entries" class="diary-subsection hidden">
+                <h1 class="main-heading">Unipäiväkirjan merkinnät</h1>
+                <p class="intro-text">Täällä näet aiemmat unimerkintäsi.</p>
+                <table class="entries-table">
+                    <thead>
+                        <tr>
+                            <th>Unen kesto (h)</th>
+                            <th>Unen laatu</th>
+                            <th>Kuvaus</th>
+                            <th>Päivämäärä</th>
+                        </tr>
+                    </thead>
+                    <tbody id="entries-table-body"></tbody>
+                </table>
+            </div>
+            <div id="add-entry" class="diary-subsection">
+                <h1 class="main-heading">Lisää unipäiväkirjan merkintä</h1>
+                <p class="intro-text">Kirjaa tänne unesi.</p>
+                <section>
+                    <form id="sleep-form">
+                        
+                        <label for="sleep-duration">Unen kesto (tuntia):</label>
+                        <input type="number" id="sleep-duration" min="0" step="0.5" required>
+        
+                        <label for="sleep-quality">Unen laatu (1-5):</label>
+                        <input type="number" id="sleep-quality" min="1" max="5" required>
+        
+                        <label for="dream-description">Unikuvaus:</label>
+                        <textarea id="dream-description" rows="3"></textarea>
+        
+                        <button class="entrySubmit" type="submit">Tallenna</button>
+                    </form>
+                </section>
+            </div>
+        </div>
+        
+        <div id="treenipaivakirja" class="diary-section hidden">
+            <button id="naytaTreeni">Näytä merkinnät</button>
+            <button id="lisaaTreeni">Lisää merkintä</button>
+            <div id="view-entries-t" class="diary-subsection hidden">
+                <h1 class="main-heading">Treenipäiväkirjan merkinnät</h1>
+                <p class="intro-text">Täällä näet aiemmat treenimerkintäsi.</p>
+                <table class="exercise-table">
+                    <thead>
+                        <tr>
+                            <th>Treeni</th>
+                            <th>Kesto</th>
+                            <th>Intensiteetti</th>
+                            <th>Tiedot</th>
+                            <th>Päivämäärä</th>
+                        </tr>
+                    </thead>
+                    <tbody id="exercise-table-body"></tbody>
+                </table>
+            </div>
+            <div id="add-entry-t" class="diary-subsection">
+                <h1 class="main-heading">Lisää treenipäiväkirjan merkintä</h1>
+                <p class="intro-text">Kirjaa tänne treenisi.</p>
+                <section>
+                    <form id="workout-form">
+
+                        <label for="workout-type">Treenin tyyppi:</label>
+                        <input type="text" id="workout-type" placeholder="Esim. Jooga, Kuntosali" required>
+        
+                        <label for="workout-duration">Kesto (minuuttia):</label>
+                        <input type="number" id="workout-duration" min="1" required>
+
+                        <label for="workout-intensity">Treenin intensiteetti:</label>
+                        <select id="workout-intensity" required>
+                            <option value="kevyt">kevyt</option>
+                            <option value="kohtuullinen">kohtuullinen</option>
+                            <option value="kova">kova</option>
+                            <option value="erittain_kova">erittäin kova</option>
+                        </select>
+        
+                        <label for="workout-notes">Huomioita:</label>
+                        <textarea id="workout-notes" rows="2"></textarea>
+        
+                        <button class="exerciseSubmit" type="submit">Tallenna</button>
+                    </form>
+                </section>
+            </div>
+        </div>
+        
+        <div id="mielialapaivakirja" class="diary-section hidden">
+            <button id="naytaMieliala">Näytä merkinnät</button>
+            <button id="lisaaMieliala">Lisää merkintä</button>
+            <div id="view-entries-m" class="diary-subsection hidden">
+                <h1 class="main-heading">Mielialapäiväkirjan merkinnät</h1>
+                <p class="intro-text">Täällä näet aiemmat mielialamerkintäsi.</p>
+                <table class="mood-table">
+                    <thead>
+                        <tr>
+                            <th>Mieliala</th>
+                            <th>Tiedot</th>
+                            <th>Päivämäärä</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mood-table-body"></tbody>
+                </table>
+            </div>
+            <div id="add-entry-m" class="diary-subsection">
+                <h1 class="main-heading">Lisää mielialapäiväkirjan merkintä</h1>
+                <p class="intro-text">Kirjaa tänne mielialasi.</p>
+                <section>
+                    <form id="mood-form">
+                        <label for="mood">Mieliala:</label>
+                        <select id="mood" required>
+                            <option value="hyvä">Hyvä 😊</option>
+                            <option value="neutraali">Neutraali 😐</option>
+                            <option value="huono">Huono 😞</option>
+                        </select>
+        
+                        <label for="mood-notes">Huomioita:</label>
+                        <textarea id="mood-notes" rows="2"></textarea>
+        
+                        <button class="moodSubmit" type="submit">Tallenna</button>
+                    </form>
+                </section>
+            </div>
+        </div>
+
+        <div id="asetukset" class="hidden">
+            <div id="userProfile"></div>
+            <button id="delete-user" class="danger">Poista käyttäjä</button>
+        </div>
+    </div>
+    <script type="module" src="/src/js/paivakirja.js"></script>
+</body>
+</html>

@@ -2,7 +2,7 @@ import {fetchData} from './fetch';
 
 /////////////////////
 // Dialogi
-const dialog = document.querySelector('.info_dialog');
+/* const dialog = document.querySelector('.info_dialog');
 const closeButton = document.querySelector('.info_dialog button');
 
 closeButton.addEventListener('click', () => {
@@ -95,7 +95,7 @@ const addEventListeners = () => {
       }
     });
   });
-};
+}; */
 
 /////////////////////
 // getUsersById
@@ -110,7 +110,56 @@ const getUserById = async (userId) => {
   return user;
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+/////////////////////
+// getMe
+const getMe = async () => {
+  const url = 'http://localhost:3000/api/auth/me';
+
+    // Kutsun headers tiedot johon liitetään tokeni
+    let headers = {};
+
+    // Nyt haetaan Token localstoragesta
+    const token = localStorage.getItem('token');
+  
+    // Muodostetaa nyt headers oikeaan muotoon
+    headers = {Authorization: `Bearer ${token}`};
+  
+    // Options
+    const options = {
+      headers: headers,
+    };
+    console.log(options);
+
+    const haku = await fetchData(url, options);
+
+  if (haku.error) {
+    console.log('Tapahtui virhe fetch haussa!!');
+    return;
+  }
+
+  console.log(haku);
+  createProfile(haku);
+};
+
+
+const createProfile = (userData) => {
+  const profileContainer = document.getElementById('userProfile');
+
+  if (!profileContainer) {
+    console.error("Elementti 'userProfile' ei löytynyt!");
+    return;
+  }
+
+  profileContainer.innerHTML = `
+    <h2>Käyttäjätiedot</h2>
+    <p><strong>Käyttäjänimi:</strong> ${userData.username}</p>
+    <p><strong>Sähköposti:</strong> ${userData.email}</p>
+    <p><strong>Rekisteröitynyt:</strong> ${new Date(userData.created_at).toLocaleDateString('fi-FI')}</p>
+  `;
+};
+
+
+/* document.addEventListener('DOMContentLoaded', () => {
   const fetchUserBtn = document.querySelector('#fetchUserBtn');
 
   fetchUserBtn.addEventListener('click', async () => {
@@ -134,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Käyttäjää ei löytynyt!');
     }
   });
-});
+}); */
 
 
 /////////////////////
@@ -192,9 +241,68 @@ const addUser = async (event) => {
   getUsers();
 };
 
-// TODOO
-// Tee tänne funktio joka hakee yksittäiset käyttäjän tiedot
-// KÄytä tähän reittiä
-// GET http://localhost:3000/api/users/:id
+const deleteUser = async () => {
+  try {
+    const userId = await getUserID();
 
-export {getUsers, addUser};
+    console.log(userId);
+
+    if (!userId) {
+      console.error('Käyttäjän ID:tä ei löytynyt');
+      return;
+    }
+
+    const url = `http://localhost:3000/api/users/${userId}`;
+    
+    const options = {
+      method: 'DELETE',
+    };
+
+    const response = await fetch(url, options);
+    const result = await response.json();
+
+    if (response.ok) {
+      console.log('Käyttäjä poistettu:', result.message);
+      localStorage.clear(); // Tyhjennä localStorage
+      window.location.href = 'index.html'; // Ohjaa kirjautumissivulle
+    } else {
+      console.error('Virhe poistossa:', result.message);
+    }
+  } catch (error) {
+    console.error('Virhe deleteUser-funktiossa:', error);
+  }
+};
+
+
+const getUserID = async () => {
+  const url = 'http://localhost:3000/api/auth/me';
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    console.error('Token puuttuu! Käyttäjä ei ole kirjautunut.');
+    return null;
+  }
+
+  const options = {
+    headers: { Authorization: `Bearer ${token}` }
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log(data.user_id);
+      return data.user_id; // Palauttaa käyttäjän ID:n
+    } else {
+      console.error('Virhe käyttäjän tietojen haussa:', data.message);
+      return null;
+    }
+  } catch (error) {
+    console.error('Virhe palvelimeen yhdistäessä:', error);
+    return null;
+  }
+};
+
+
+export {addUser, getMe, deleteUser, getUserID};

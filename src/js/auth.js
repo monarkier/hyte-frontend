@@ -1,11 +1,5 @@
 import '../css/style.css';
-import '../css/snackbar.css';
 import {fetchData} from './fetch.js';
-
-console.log('Moi luodaan nyt tokeneita ja kirjaudutaan sisään');
-
-// Esimerkin takia haut ovat nyt suoraan tässä tiedostossa, jotta harjoitus ei sekoita
-// teidän omaa projektin rakennetta
 
 const registerUser = async (event) => {
   event.preventDefault();
@@ -48,6 +42,7 @@ const registerUser = async (event) => {
 
   if (response.message) {
     console.log(response.message, 'success');
+    window.location.href = "./paivakirja.html";
   }
 
   console.log(response);
@@ -95,44 +90,11 @@ const loginUser = async (event) => {
     console.log(response.message, 'success');
     localStorage.setItem('token', response.token);
     localStorage.setItem('nimi', response.user.username);
+    window.location.href = "./paivakirja.html";
   }
 
   console.log(response);
   loginForm.reset(); // tyhjennetään formi
-};
-
-const checkUser = async (event) => {
-  event.preventDefault();
-
-  // Endpoint
-  const url = 'http://localhost:3000/api/auth/me';
-  // Kutsun headers tiedot johon liitetään tokeni
-  let headers = {};
-
-  // Nyt haetaan Token localstoragesta
-  const token = localStorage.getItem('token');
-
-  // Muodostetaa nyt headers oikeaan muotoon
-  headers = {Authorization: `Bearer ${token}`};
-
-  // Options
-  const options = {
-    headers: headers,
-  };
-  console.log(options);
-
-  // Hae data
-  const response = await fetchData(url, options);
-
-  if (response.error) {
-    console.error('Error getting personal data:', response.error);
-    return;
-  }
-
-  if (response.message) {
-    console.log(response.message, 'success');
-  }
-  console.log(response);
 };
 
 const registerForm = document.querySelector('.registerForm');
@@ -140,6 +102,3 @@ registerForm.addEventListener('submit', registerUser);
 
 const loginForm = document.querySelector('.loginForm');
 loginForm.addEventListener('submit', loginUser);
-
-const meRequest = document.querySelector('#meRequest');
-meRequest.addEventListener('click', checkUser);

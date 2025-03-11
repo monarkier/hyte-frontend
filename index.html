@@ -2,29 +2,69 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="../src/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
   </head>
   <body>
-    <nav>
-      <ul>
-        <li><a href="./index.html">Home</a></li>
-        <li><a href="./about.html">About</a></li>
-      </ul>
-    </nav>
-    <h2>Index / Kotisivu</h2>
-    <ul>
-      <li>
-        <a href="./src/pages/apitest.html" target="_blank"
-          >Linkki APItesteihin</a
-        >
-      </li>
-      <li>
-        <a href="./src/pages/authtest.html" target="_blank">Linkki Auth</a>
-      </li>
-    </ul>
+    <div class="content-container">
+
+    <div class="loginForm">
+      <form class="loginForm">
+        <label for="username">Username</label>
+        <input type="text" name="username" placeholder="name" value="name" />
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="name123"
+          value="name"
+        />
+        <input
+          name="submit"
+          type="submit"
+          value="Login and get new token"
+          class="loginform"
+        />
+      </form>
+      <button id="showRegister">Näytä Register</button>
+    </div>
+
+    <div class="registerForm hidden">
+      <form class="registerForm">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          name="username"
+          placeholder="Uusi käyttäjä"
+        />
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          placeholder="salakala"
+        />
+        <label for="password">Email</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          placeholder="newuser@example.com"
+        />
+        <input
+          name="submit"
+          type="submit"
+          value="Add User"
+          class="postuser"
+        />
+      </form>
+      <button id="showLogin">Näytä Login</button>
+    </div>
+  </div>
 
     <script type="module" src="/src/js/index.js"></script>
+    <script type="module" src="/src/js/auth.js"></script>
   </body>
 </html>
