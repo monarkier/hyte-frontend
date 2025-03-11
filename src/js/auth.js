@@ -42,6 +42,8 @@ const registerUser = async (event) => {
 
   if (response.message) {
     console.log(response.message, 'success');
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('nimi', response.user.username);
     window.location.href = "./paivakirja.html";
   }
 
